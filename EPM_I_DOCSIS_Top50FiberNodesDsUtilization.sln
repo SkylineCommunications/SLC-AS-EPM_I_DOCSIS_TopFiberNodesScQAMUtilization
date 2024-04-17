@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{87F9DC7E-4250-43A1-8882-F6AE8A8AEFFB}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\.editorconfig = Internal\.editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4F9A7B32-4624-4D22-8D25-0545CF92E377}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dlls", "Dlls", "{91F06B28-55B6-4CD6-98EF-B8779C0B0473}"
+	ProjectSection(SolutionItems) = preProject
+		Dlls\ABOUT.md = Dlls\ABOUT.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CompanionFiles", "CompanionFiles", "{EAC7E8F5-9AD5-4F44-9863-1569012727DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skyline DataMiner", "Skyline DataMiner", "{EA1E2E12-13B2-49D2-B87C-A73C7E52FA44}"
+	ProjectSection(SolutionItems) = preProject
+		CompanionFiles\Skyline DataMiner\AboutThisFolder.md = CompanionFiles\Skyline DataMiner\AboutThisFolder.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{D7633691-3CEF-4F9A-A2C0-0846569DC3C4}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\ABOUT.md = Documentation\ABOUT.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F8938D60-51A0-4880-9CFC-19C66379BB5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Analysis", "Code Analysis", "{5BB79BF5-BDB3-4B21-89CE-565EFC57683E}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\Code Analysis\qaction-debug.ruleset = Internal\Code Analysis\qaction-debug.ruleset
+		Internal\Code Analysis\qaction-release.ruleset = Internal\Code Analysis\qaction-release.ruleset
+		Internal\Code Analysis\stylecop.json = Internal\Code Analysis\stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPM_I_DOCSIS_Top50FiberNodesDsUtilization", "EPM_I_DOCSIS_Top50FiberNodesDsUtilization", "{FB4F6EBE-908E-4B45-B9DB-E6731E132516}"
+	ProjectSection(SolutionItems) = preProject
+		EPM_I_DOCSIS_Top50FiberNodesDsUtilization.xml = EPM_I_DOCSIS_Top50FiberNodesDsUtilization.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{8DA6FAD0-5298-433E-B5E2-E70FDDFAD06B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1", "EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj", "{D12D2125-92B2-4EF1-B26F-356202D06553}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D12D2125-92B2-4EF1-B26F-356202D06553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12D2125-92B2-4EF1-B26F-356202D06553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12D2125-92B2-4EF1-B26F-356202D06553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12D2125-92B2-4EF1-B26F-356202D06553}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EA1E2E12-13B2-49D2-B87C-A73C7E52FA44} = {EAC7E8F5-9AD5-4F44-9863-1569012727DF}
+		{5BB79BF5-BDB3-4B21-89CE-565EFC57683E} = {87F9DC7E-4250-43A1-8882-F6AE8A8AEFFB}
+		{FB4F6EBE-908E-4B45-B9DB-E6731E132516} = {4F9A7B32-4624-4D22-8D25-0545CF92E377}
+		{8DA6FAD0-5298-433E-B5E2-E70FDDFAD06B} = {FB4F6EBE-908E-4B45-B9DB-E6731E132516}
+		{D12D2125-92B2-4EF1-B26F-356202D06553} = {8DA6FAD0-5298-433E-B5E2-E70FDDFAD06B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E3BA36A-7570-4F19-AA6F-B1D9CDA17E5C}
+	EndGlobalSection
+EndGlobal
