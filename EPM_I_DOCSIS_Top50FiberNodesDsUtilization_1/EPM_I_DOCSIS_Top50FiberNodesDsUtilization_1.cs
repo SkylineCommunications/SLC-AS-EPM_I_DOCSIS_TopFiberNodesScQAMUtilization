@@ -62,7 +62,7 @@ using Skyline.DataMiner.Net.Messages;
 using Skyline.DataMiner.Net.Trending;
 using SLDataGateway.API.Types.Results.Paging;
 
-[GQIMetaData(Name = "Top FN Utilization")]
+[GQIMetaData(Name = "Top SC-QAM FN Utilization")]
 public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 {
 	private readonly GQIStringArgument frontEndElementArg = new GQIStringArgument("FE Element")
