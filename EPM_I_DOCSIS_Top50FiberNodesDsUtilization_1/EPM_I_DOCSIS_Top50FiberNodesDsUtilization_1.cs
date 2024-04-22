@@ -53,10 +53,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 using Skyline.DataMiner.Analytics.GenericInterface;
+using Skyline.DataMiner.Analytics.GenericInterface.QueryBuilder;
 using Skyline.DataMiner.Automation;
 using Skyline.DataMiner.Net;
 using Skyline.DataMiner.Net.Apps.DataMinerObjectModel.Settings;
+using Skyline.DataMiner.Net.Correlation;
 using Skyline.DataMiner.Net.Helper;
 using Skyline.DataMiner.Net.Messages;
 using Skyline.DataMiner.Net.Trending;
@@ -90,11 +93,13 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 		IsRequired = false,
 	};
 
+	private readonly object dictionaryLock = new object();
 	private GQIDMS _dms;
 	private string frontEndElement = String.Empty;
 	private int columnPid = 0;
 	private int entityBeTablePid = 0;
 	private DateTime initialTime;
+
 	private DateTime finalTime;
 
 	private List<GQIRow> listGqiRows = new List<GQIRow> { };
@@ -138,7 +143,6 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 			initialTime = args.GetArgumentValue(initialTimeArg);
 			finalTime = args.GetArgumentValue(finalTimeArg);
 			var fibernodeDictionary = new Dictionary<string, FiberNodeOverview>();
-
 			GetServiceGroupsTables(fibernodeDictionary);
 			AddRows(fibernodeDictionary);
 		}
@@ -192,7 +196,7 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 
 		if (backendTable != null && backendTable.Any())
 		{
-			for (int i = 0; i < backendTable[0].Count(); i++)
+			Parallel.For(0, backendTable[0].Count(), i =>
 			{
 				var key = Convert.ToString(backendTable[0][i].CellValue);
 				List<HelperPartialSettings[]> backendEntityTable = GetTable(key, entityBeTablePid, new List<string>
@@ -201,11 +205,11 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 					});
 
 				if (backendEntityTable == null || !backendEntityTable.Any() || backendEntityTable[0].Length == 0)
-					continue;
+					return;
 				List<ParameterIndexPair[]> parameterPartitions = GetKeysPartition(backendEntityTable);
 				var keysToSelect = backendEntityTable[0].Select(x => x.CellValue).ToArray();
 				CreateRowsDictionary(fibernodeDictionary, key, backendEntityTable, parameterPartitions, keysToSelect);
-			}
+			});
 		}
 
 		return;
@@ -218,44 +222,40 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 			return "N/A";
 		}
 
-		return Math.Round(doubleValue, 2) + " " + unit;
+		return doubleValue.ToString("0.00") + " " + unit;
 	}
 
 	private void CreateRowsDictionary(Dictionary<string, FiberNodeOverview> fibernodeDictionary, string key, List<HelperPartialSettings[]> backendEntityTable, List<ParameterIndexPair[]> parameterPartitions, object[] keysToSelect)
 	{
-		foreach (ParameterIndexPair[] partition in parameterPartitions)
+		Parallel.ForEach(parameterPartitions, partition =>
 		{
 			GetTrendDataResponseMessage trendMessage = GetTrendMessage(key, partition);
 			if (trendMessage == null || trendMessage.Records.IsNullOrEmpty())
 			{
-				continue;
+				return;
 			}
 
-			Dictionary<string, double> trendDictionary = trendMessage.Records.Select(x => new
+			foreach (var record in trendMessage.Records)
 			{
-				Key = x.Key.Substring(x.Key.IndexOf('/') + 1),
-				AverageTrendRecords = x.Value.Select(y => y as AverageTrendRecord)
-				.Where(z => z.Status == 5)
-				.Select(z => z.AverageValue)
-				.DefaultIfEmpty(-1).Max(),
-			}).ToDictionary(x => x.Key, x => x.AverageTrendRecords);
-			var partitionKeys = new HashSet<string>(partition.Select(p => p.Index));
+				var keyFn = record.Key.Substring(record.Key.IndexOf('/') + 1);
 
-			foreach (var keyFn in partitionKeys)
-			{
 				var index = Array.IndexOf(keysToSelect, keyFn);
-
-				if (index != -1 && trendDictionary.TryGetValue(keyFn, out double peakUtilization))
+				if (index == -1)
 				{
-					fibernodeDictionary.Add(keyFn, new FiberNodeOverview
+					continue;
+				}
+
+				lock (dictionaryLock)
+				{
+					fibernodeDictionary[keyFn] = new FiberNodeOverview
 					{
 						Key = keyFn,
 						FiberNodeName = Convert.ToString(backendEntityTable[2][index].CellValue),
-						PeakUtilization = peakUtilization,
-					});
+						PeakUtilization = record.Value.Max(x => (x as AverageTrendRecord).AverageValue),
+					};
 				}
 			}
-		}
+		});
 	}
 
 	private List<ParameterIndexPair[]> GetKeysPartition(List<HelperPartialSettings[]> backendEntityTable)
@@ -338,18 +338,11 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 	}
 }
 
-public class BackEndHelper
-{
-	public string ElementId { get; set; }
-}
-
 public class FiberNodeOverview
 {
 	public string Key { get; set; }
 
 	public string FiberNodeName { get; set; }
-
-	public double DsUtilization { get; set; }
 
 	public double PeakUtilization { get; set; }
 }
