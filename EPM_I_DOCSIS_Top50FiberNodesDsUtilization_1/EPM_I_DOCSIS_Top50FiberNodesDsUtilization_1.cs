@@ -240,7 +240,8 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 				var keyFn = record.Key.Substring(record.Key.IndexOf('/') + 1);
 
 				var index = Array.IndexOf(keysToSelect, keyFn);
-				if (index == -1)
+				var fiberNodeName = Convert.ToString(backendEntityTable[2][index].CellValue);
+				if (index == -1 || String.IsNullOrEmpty(fiberNodeName))
 				{
 					continue;
 				}
@@ -250,7 +251,7 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 					fibernodeDictionary[keyFn] = new FiberNodeOverview
 					{
 						Key = keyFn,
-						FiberNodeName = Convert.ToString(backendEntityTable[2][index].CellValue),
+						FiberNodeName = fiberNodeName,
 						PeakUtilization = record.Value.Max(x => (x as AverageTrendRecord).AverageValue),
 					};
 				}
