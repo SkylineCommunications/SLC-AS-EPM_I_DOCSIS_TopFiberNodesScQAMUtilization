@@ -1,28 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GIT\\Automation\\Generic\\DataMiner Solutions\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj": {}
+    "C:\\GIT\\GitHub\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj": {}
   },
   "projects": {
-    "C:\\GIT\\Automation\\Generic\\DataMiner Solutions\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj": {
+    "C:\\GIT\\GitHub\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GIT\\Automation\\Generic\\DataMiner Solutions\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj",
+        "projectUniqueName": "C:\\GIT\\GitHub\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj",
         "projectName": "EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1",
-        "projectPath": "C:\\GIT\\Automation\\Generic\\DataMiner Solutions\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj",
-        "packagesPath": "C:\\Users\\SergioSU\\.nuget\\packages\\",
-        "outputPath": "C:\\GIT\\Automation\\Generic\\DataMiner Solutions\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\obj\\",
+        "projectPath": "C:\\GIT\\GitHub\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1.csproj",
+        "packagesPath": "C:\\Users\\gabrielbo\\.nuget\\packages\\",
+        "outputPath": "C:\\GIT\\GitHub\\SLC-AS-EPM_I_DOCSIS_Top50FiberNodesDsUtilization\\EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\SergioSU\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\gabrielbo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net48"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://devcore3.skyline.local/nuget/": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net48": {
@@ -34,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -55,7 +64,7 @@
               "version": "[1.1.118, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("© Skyline Communications")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f797f5f54803f43bda3d42f23125e1db3f08f7a")]
 [assembly: System.Reflection.AssemblyProductAttribute("EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EPM_I_DOCSIS_Top50FiberNodesDsUtilization_1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
