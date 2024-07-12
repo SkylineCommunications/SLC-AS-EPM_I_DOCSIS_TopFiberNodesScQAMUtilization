@@ -94,6 +94,9 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 
     private List<GQIRow> listGqiRows = new List<GQIRow> { };
 
+    private int iterator = 0;
+    private List<string> allBackends = new List<string> { };
+
     public OnInitOutputArgs OnInit(OnInitInputArgs args)
     {
         _dms = args.DMS;
@@ -132,6 +135,7 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
             finalTime = DateTime.Now;
             initialTime = finalTime - new TimeSpan(24, 0, 0);
 
+            allBackends = GetAllBackends();
             var fibernodeDictionary = new Dictionary<string, FiberNodeOverview>();
             GetServiceGroupsTables(fibernodeDictionary);
             AddRows(fibernodeDictionary);
@@ -142,6 +146,59 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
         }
 
         return new OnArgumentsProcessedOutputArgs();
+    }
+
+    public GQIPage GetNextPage(GetNextPageInputArgs args)
+    {
+        listGqiRows.Clear();
+
+        if (iterator == allBackends.Count)
+        {
+            return new GQIPage(listGqiRows.ToArray())
+            {
+                HasNextPage = false,
+            };
+        }
+        else
+        {
+            var fibernodeDictionary = new Dictionary<string, FiberNodeOverview>();
+
+            GetServiceGroupsTables(fibernodeDictionary);
+
+            AddRows(fibernodeDictionary);
+
+            iterator++;
+
+            return new GQIPage(listGqiRows.ToArray())
+            {
+                HasNextPage = true,
+            };
+        }
+    }
+
+    public List<string> GetAllBackends()
+    {
+        var allBackends = new List<string>();
+
+        if (String.IsNullOrEmpty(frontEndElement))
+        {
+            return allBackends;
+        }
+
+        var backendTable = GetTable(frontEndElement, 1200500, new List<string>
+        {
+            "forceFullTable=true",
+        });
+
+        if (backendTable != null && backendTable.Any())
+        {
+            for (int i = 0; i < backendTable[0].Count(); i++)
+            {
+                allBackends.Add(Convert.ToString(backendTable[0][i].CellValue));
+            }
+        }
+
+        return allBackends;
     }
 
     public List<HelperPartialSettings[]> GetTable(string element, int tableId, List<string> filter)
@@ -174,33 +231,17 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 
     public void GetServiceGroupsTables(Dictionary<string, FiberNodeOverview> fibernodeDictionary)
     {
-        if (String.IsNullOrEmpty(frontEndElement))
-        {
-            return;
-        }
-
-        var backendTable = GetTable(frontEndElement, 1200500, new List<string>
-            {
-                "forceFullTable=true",
-            });
-
-        if (backendTable != null && backendTable.Any())
-        {
-            for (int i = 0; i < backendTable[0].Count(); i++)
-            {
-                var key = Convert.ToString(backendTable[0][i].CellValue);
-                List<HelperPartialSettings[]> backendEntityTable = GetTable(key, entityBeTablePid, new List<string>
+        var key = allBackends[iterator];
+        List<HelperPartialSettings[]> backendEntityTable = GetTable(key, entityBeTablePid, new List<string>
                     {
                         String.Format("forceFullTable=true;columns={0},{1};trend=avg,{2}",entityBeTablePid + 1, entityBeTablePid + 2, columnPid),
                     });
 
-                if (backendEntityTable == null || !backendEntityTable.Any() || backendEntityTable[0].Length == 0)
-                    return;
-                List<ParameterIndexPair[]> parameterPartitions = GetKeysPartition(backendEntityTable);
-                var keysToSelect = backendEntityTable[0].Select(x => x.CellValue).ToArray();
-                CreateRowsDictionary(fibernodeDictionary, key, backendEntityTable, parameterPartitions, keysToSelect);
-            }
-        }
+        if (backendEntityTable == null || !backendEntityTable.Any() || backendEntityTable[0].Length == 0)
+            return;
+        List<ParameterIndexPair[]> parameterPartitions = GetKeysPartition(backendEntityTable);
+        var keysToSelect = backendEntityTable[0].Select(x => x.CellValue).ToArray();
+        CreateRowsDictionary(fibernodeDictionary, key, backendEntityTable, parameterPartitions, keysToSelect);
     }
 
     public string ParseDoubleValue(double doubleValue, string unit)
@@ -297,14 +338,6 @@ public class MyDataSource : IGQIDataSource, IGQIInputArguments, IGQIOnInit
 
             listGqiRows.Add(gqiRow1);
         }
-    }
-
-    public GQIPage GetNextPage(GetNextPageInputArgs args)
-    {
-        return new GQIPage(listGqiRows.ToArray())
-        {
-            HasNextPage = false,
-        };
     }
 
     private GetTrendDataResponseMessage GetTrendMessage(string element, ParameterIndexPair[] parametersToRequest)
